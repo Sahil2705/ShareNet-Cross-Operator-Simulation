@@ -1,8 +1,14 @@
+
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const uploadDir = path.join(__dirname, '..', 'uploads');
+const isVercel = process.env.VERCEL === '1';
+
+const uploadDir = isVercel
+  ? '/tmp/sharenet-uploads'
+  : path.join(__dirname, '..', 'uploads');
+
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -23,6 +29,7 @@ const allowedExtensions = ['.xlsx', '.xls', '.csv', '.json', '.xml', '.pdf'];
 
 const fileFilter = (req, file, cb) => {
   const ext = path.extname(file.originalname).toLowerCase();
+
   if (allowedExtensions.includes(ext)) {
     cb(null, true);
   } else {
@@ -33,8 +40,8 @@ const fileFilter = (req, file, cb) => {
 const maxFileSizeMB = parseInt(process.env.MAX_FILE_SIZE_MB || '50', 10);
 
 const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
+  storage,
+  fileFilter,
   limits: {
     fileSize: maxFileSizeMB * 1024 * 1024,
   },
