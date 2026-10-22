@@ -2,20 +2,18 @@ const mysql = require('mysql2/promise');
 const dotenv = require('dotenv');
 
 dotenv.config();
-
 const poolConfig = {
-  host: process.env.DATABASE_HOST || 'localhost',
-  port: parseInt(process.env.DATABASE_PORT || '3306', 10),
-  user: process.env.DATABASE_USER || 'root',
-  password: process.env.DATABASE_PASSWORD || '',
-  database: process.env.DATABASE_NAME || 'abhii_karke_deta_hu',
+  host: process.env.DATABASE_HOST,
+  port: parseInt(process.env.DATABASE_PORT || '4000', 10),
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
   enableKeepAlive: true,
   keepAliveInitialDelay: 10000,
 };
-
 // Enable TLS/SSL if requested (e.g. for TiDB Cloud / AWS RDS / Azure MySQL)
 if (process.env.DATABASE_SSL === 'true' || process.env.DATABASE_SSL === '1') {
   poolConfig.ssl = {
