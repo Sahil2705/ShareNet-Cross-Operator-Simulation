@@ -3,8 +3,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 const poolConfig = {
-  host: process.env.DATABASE_HOST,
-  port: parseInt(process.env.DATABASE_PORT || '4000', 10),
+host: process.env.DATABASE_HOST?.trim(),  port: parseInt(process.env.DATABASE_PORT || '4000', 10),
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
